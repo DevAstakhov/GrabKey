@@ -15,9 +15,8 @@ set(SOURCES
 )
 
 set(HEADERS
+  include/detailed_key.h
   include/events_config.h
-  include/events_filter.h
-  include/events_processor_impl.h
   include/events_processor.h
   include/fd_poller.h
   include/fd_reader.h
