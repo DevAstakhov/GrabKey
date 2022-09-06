@@ -33,7 +33,7 @@ public:
         Interrupted = 2
     };
 
-    typename Parser::Result get_key(int timeout_ms) {
+    typename Parser::Result get_key(int timeout_ms = -1) {
         Status s;
         return get_key(timeout_ms, s);
     }
