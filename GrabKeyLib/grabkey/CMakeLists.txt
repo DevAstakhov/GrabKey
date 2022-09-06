@@ -1,0 +1,53 @@
+cmake_minimum_required(VERSION 3.12.0)
+
+project(grabkeylib)
+project(grabkeylib VERSION 0.2.0)
+
+set(SOURCES
+    src/terminal.c
+)
+
+set(HEADERS
+    include/fd_monitor.h
+    include/terminal.h
+)
+
+include(CheckSymbolExists)
+
+check_symbol_exists(epoll_wait "sys/epoll.h" HAVE_EPOLL)
+check_symbol_exists(kqueue "sys/event.h" HAVE_KQUEUE)
+
+if (${HAVE_EPOLL})
+    list(APPEND SOURCES src/fd_monitor_epoll.c)
+elseif (${HAVE_KQUEUE})
+    list(APPEND SOURCES src/fd_monitor_kqueue.c)
+else ()
+    message(FATAL_ERROR "Neither \"epoll_wait\" nor \"kqueue\" found.")
+endif ()
+
+add_library(grabkey ${SOURCES})
+target_include_directories(grabkey PUBLIC "include")
+
+# Installation
+
+set(INCLUDE_INSTALL_DIR "include/grabkey/")
+set(LIBRARY_INSTALL_DIR "lib/grabkey/")
+set(INSTALL_DESTINATION_DIR "${LIBRARY_INSTALL_DIR}/cmake")
+
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(GrabKeyConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyConfig.cmake
+  INSTALL_DESTINATION ${INSTALL_DESTINATION_DIR}
+  PATH_VARS INCLUDE_INSTALL_DIR LIBRARY_INSTALL_DIR)
+
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyConfigVersion.cmake
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY SameMajorVersion)
+
+install(TARGETS grabkey DESTINATION ${LIBRARY_INSTALL_DIR})
+install(FILES ${HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/grabkey)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyConfigVersion.cmake
+        DESTINATION ${INSTALL_DESTINATION_DIR})
