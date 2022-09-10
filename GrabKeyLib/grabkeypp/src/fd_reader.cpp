@@ -5,12 +5,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <termios.h>
 
 namespace keyboard {
 
 FdReader::FdReader(int fd)
     : fd(fd)
-    , raw()
     , poller(fd)
 {
     int flags = ::fcntl(fd, F_GETFL, 0);
@@ -22,7 +22,6 @@ FdReader::FdReader(int fd)
 }
 
 void FdReader::dispose() {
-    this->raw.dispose();
     this->poller.dispose();
 }
 

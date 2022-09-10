@@ -1,7 +1,8 @@
 #pragma once
 
-#include "fd_monitor.h"
 #include <memory>
+
+struct monitor_ctx_t;
 
 namespace keyboard {
 

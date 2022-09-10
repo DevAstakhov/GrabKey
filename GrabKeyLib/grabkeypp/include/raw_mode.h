@@ -1,7 +1,8 @@
 #pragma once
 
-#include "terminal.h"
 #include <memory>
+
+struct termios;
 
 namespace terminal {
 

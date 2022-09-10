@@ -2,6 +2,7 @@
 
 #include "fd_reader.h"
 #include "kbd_key_parser.h"
+#include "raw_mode.h"
 #include <deque>
 #include <type_traits>
 #include <unistd.h>
@@ -15,6 +16,7 @@ public:
     using Parser = TParser;
 
 private:
+    terminal::RawMode raw;
     FdReader reader;
     Parser parser;
     size_t read_size;

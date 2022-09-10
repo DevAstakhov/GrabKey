@@ -1,7 +1,6 @@
 #pragma once
 
 #include "fd_poller.h"
-#include "raw_mode.h"
 #include <memory>
 #include <vector>
 
@@ -9,7 +8,6 @@ namespace keyboard {
 
 class FdReader {
     int fd;
-    terminal::RawMode raw;
     FdPoller poller;
 
 public:

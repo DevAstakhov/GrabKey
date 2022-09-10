@@ -1,4 +1,5 @@
 #include "fd_poller.h"
+#include "fd_monitor.h"
 #include <cstring>
 #include <stdexcept>
 #include <unistd.h>
@@ -7,7 +8,7 @@ namespace keyboard {
 
     FdPoller::FdPoller(int fd)
         : the_ctx(fd_monitor_create(fd),
-            [](auto ctx){
+            [](auto& ctx){
                 fd_monitor_interrupt(ctx);
                 fd_monitor_free(ctx);
             })

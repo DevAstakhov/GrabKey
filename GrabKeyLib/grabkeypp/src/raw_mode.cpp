@@ -1,4 +1,5 @@
 #include "raw_mode.h"
+#include "terminal.h"
 
 namespace terminal {
 
