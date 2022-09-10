@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 }
 
 void print_usage(const char* bin_name) {
-    std::cout << "Usage: " << bin_name << " <basic | advanced> <reader | processor>";
+    std::cout << "Usage: " << bin_name << " <basic | advanced> <reader | processor>" << std::endl;
 }
 
 // Keyboard reader is designed to read and parse keyboard sequences
