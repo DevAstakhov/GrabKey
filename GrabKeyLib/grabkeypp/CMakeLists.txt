@@ -36,13 +36,12 @@ set_target_properties(grabkeypp PROPERTIES
 
 target_include_directories(grabkeypp PUBLIC include)
 target_link_libraries(grabkeypp PUBLIC grabkey)
-target_link_libraries(grabkeypp PRIVATE -lpthread)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
-set(INCLUDE_INSTALL_DIR "include/grabkey/grabkeypp/")
+set(INCLUDE_INSTALL_DIR "include/grabkey/")
 set(LIBRARY_INSTALL_DIR "lib/grabkey/")
 set(INSTALL_DESTINATION_DIR "${LIBRARY_INSTALL_DIR}/cmake")
 
@@ -59,7 +58,7 @@ write_basic_package_version_file(
   COMPATIBILITY SameMajorVersion)
 
 install(TARGETS grabkeypp DESTINATION ${LIBRARY_INSTALL_DIR})
-install(FILES ${HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR})
+install(FILES ${HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/grabkeypp)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyPpConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyPpConfigVersion.cmake
         DESTINATION ${INSTALL_DESTINATION_DIR})
