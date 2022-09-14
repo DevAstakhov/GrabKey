@@ -152,11 +152,11 @@ void use_reader_advanced() {
     };
 
     // Implement an IKeyParser which parses ansi sequence and codes 
-    // and returns the result object create above
+    // and returns the result object which is created above
     class MyParser : public IKeyParser<MyResult> {
     public:
         // This is the main function that parse data from keyboard 
-        // and turn it into your comfortable result type
+        // and turn it into your result type
         MyResult process_buffer(std::vector<char> buffer) override {
             if (buffer.size() != 1)
                 return { MyResult::NONE, false };
