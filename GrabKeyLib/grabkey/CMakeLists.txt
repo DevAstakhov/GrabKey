@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 3.12.0)
+cmake_minimum_required(VERSION 3.16.0)
 
-project(grabkeylib)
-project(grabkeylib VERSION 0.2.0)
+project(grabkey VERSION 0.2.0)
 
 set(SOURCES
     src/terminal.c
@@ -27,8 +26,6 @@ endif ()
 
 add_library(grabkey ${SOURCES})
 target_include_directories(grabkey PUBLIC "include")
-
-# Installation
 
 set(INCLUDE_INSTALL_DIR "include/grabkey/")
 set(LIBRARY_INSTALL_DIR "lib/grabkey/")

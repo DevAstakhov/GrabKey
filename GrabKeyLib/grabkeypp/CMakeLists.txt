@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.16.0)
 project(grabkeypp VERSION 0.2.0)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
@@ -30,7 +30,6 @@ set(HEADERS
 add_library(grabkeypp ${SOURCES})
 
 set_target_properties(grabkeypp PROPERTIES
-    POSITION_INDEPENDENT_CODE 1
     CXX_STANDARD 17
 )
 

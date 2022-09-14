@@ -4,3 +4,8 @@ set_and_check(GRABKEYPP_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
 set_and_check(GRABKEYPP_LIBRARY_DIR "@PACKAGE_LIBRARY_INSTALL_DIR@")
 
 check_required_components(grabkeypp)
+
+add_library(grabkeypplib INTERFACE)
+target_include_directories(grabkeypplib INTERFACE ${GRABKEYPP_INCLUDE_DIR})
+target_link_directories(grabkeypplib INTERFACE ${GRABKEYPP_LIBRARY_DIR})
+target_link_libraries(grabkeypplib INTERFACE grabkeypp grabkey)
