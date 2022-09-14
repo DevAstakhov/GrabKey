@@ -10,4 +10,3 @@
 - Cygwin support (no epoll - find workaround)
 - Performance optimization
 - Fix codestyle (clang format)
-- Fix installation (code doesn't compile after find_package)
