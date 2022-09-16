@@ -8,7 +8,7 @@ The code below allows to control cursor's position in terminal with using keyboa
 
 ```c++
 #include <iostream>
-#include "kbd_reader.h"
+#include "grabkey/kbd_reader.h"
 
 int main() {
   // create reader
@@ -17,7 +17,6 @@ int main() {
   // setup loop conditions
   bool keep_going = true;
   while (keep_going) {
-    
     // read key
     auto [key, raw] = reader.get_key();
     
@@ -43,7 +42,7 @@ This approach is designed to focus on *actions* that are required to be performe
 
 ```c++
 #include <iostream>
-#include "events_processor.h"
+#include "grabkey/events_processor.h"
 
 int main() {
     // Create an EventsProcessor
@@ -88,7 +87,13 @@ By default it builds a release version of the library.
 In case if you need a debug version - build with "CMAKE_BUILD_TYPE" option:
 
 ```bash
-cmake -DCMAKE_BUILD_TYPE=Debug .. && make
+cmake -DCMAKE_BUILD_TYPE=Debug
+```
+
+The build produce static libraries. To build shared libraries add  BUILD_SHARED_LIBS option:
+
+```bash
+cmake -DBUILD_SHARED_LIBS=YES
 ```
 
 To install the library into your system execute
@@ -100,14 +105,14 @@ make install
 By default it copies the libraries by the next paths:
 
 ```bash
-/usr/local/lib/libGrabKeyShared.so
-/usr/local/lib/libGrabKeyStatic.a
+/usr/local/lib/grabkey/libgrabkey.a
+/usr/local/lib/grabkey/libgrabkeypp.a
 ```
 
 and the includes into the next directory:
 
 ```bash
-/usr/local/include/grab-key/
+/usr/local/include/grabkey/
 ```
 
 You can add a prefix to the target installation path by using DESTDIR option:
@@ -119,13 +124,13 @@ make DESTDIR=/your/prefix install
 The library then will be placed at
 
 ```bash
-/your/prefix/usr/local/lib/libGrabKeyShared.so
-/your/prefix/usr/local/lib/libGrabKeyStatic.a
+/your/prefix/usr/local/lib/libgrabkey.a
+/your/prefix/usr/local/lib/libgrabkeypp.a
 ```
 
 and the includes at
 
 ```bash
-/your/prefix/usr/local/include/grab-key/
+/your/prefix/usr/local/include/grabkey/
 ```
 
