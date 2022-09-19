@@ -42,13 +42,13 @@ include(CPack)
 
 set(INCLUDE_INSTALL_DIR "include/grabkey/")
 set(LIBRARY_INSTALL_DIR "lib/grabkey/")
-set(INSTALL_DESTINATION_DIR "${LIBRARY_INSTALL_DIR}/cmake")
+set(CMAKE_DESTINATION_DIR "cmake")
 
 include(CMakePackageConfigHelpers)
 
 configure_package_config_file(GrabKeyPpConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyPpConfig.cmake
-  INSTALL_DESTINATION ${INSTALL_DESTINATION_DIR}
+  INSTALL_DESTINATION ${CMAKE_DESTINATION_DIR}
   PATH_VARS INCLUDE_INSTALL_DIR LIBRARY_INSTALL_DIR)
 
 write_basic_package_version_file(
@@ -60,4 +60,4 @@ install(TARGETS grabkeypp DESTINATION ${LIBRARY_INSTALL_DIR})
 install(FILES ${HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/grabkeypp)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyPpConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyPpConfigVersion.cmake
-        DESTINATION ${INSTALL_DESTINATION_DIR})
+        DESTINATION ${CMAKE_DESTINATION_DIR})
