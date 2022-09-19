@@ -4,6 +4,7 @@
 #include "kbd_key_parser.h"
 #include "raw_mode.h"
 #include <deque>
+#include <stdexcept>
 #include <type_traits>
 #include <unistd.h>
 
@@ -63,6 +64,8 @@ public:
                 out_status = Status::Interrupted;
                 return parser.process_interruption();
         }
+
+        throw std::runtime_error("Unreachable");
     }
 
     void interrupt() const { reader.interrupt(); }

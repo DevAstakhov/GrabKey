@@ -21,6 +21,8 @@ namespace keyboard {
             case interrupted : return PollResult::Interrupted;
             case data_ready : return PollResult::DataReady;
         }
+
+        throw std::runtime_error("Unreachable");
     }
 
     PollResult FdPoller::poll(int timeout_ms) const
