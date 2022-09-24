@@ -3,7 +3,7 @@
 ## What else to do
 
 - Unit tests (cmake compatible)
-- Install on system
+- Install on system (MacOS)
 - Build package (rpm/deb)
 - Documentation (Doxygen, Readme)
 - License (MIT)
