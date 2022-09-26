@@ -43,8 +43,19 @@ write_basic_package_version_file(
   VERSION ${PROJECT_VERSION}
   COMPATIBILITY SameMajorVersion)
 
-install(TARGETS grabkey DESTINATION ${LIBRARY_INSTALL_DIR})
-install(FILES ${HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/grabkey)
+# Packaging 
+
+set(COMPONENT_NAME "clib")
+
+install(TARGETS grabkey 
+        DESTINATION ${LIBRARY_INSTALL_DIR}
+        COMPONENT ${COMPONENT_NAME})
+
+install(FILES ${HEADERS}
+        DESTINATION ${INCLUDE_INSTALL_DIR}/grabkey
+        COMPONENT ${COMPONENT_NAME})
+
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/GrabKeyConfigVersion.cmake
-        DESTINATION ${CMAKE_DESTINATION_DIR})
+        DESTINATION ${CMAKE_DESTINATION_DIR}
+        COMPONENT ${COMPONENT_NAME})
