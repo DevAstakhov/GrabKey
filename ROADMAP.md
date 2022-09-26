@@ -6,6 +6,6 @@
 - Build package (rpm/deb)
 - Documentation (Doxygen, Readme)
 - License (MIT)
-- Cygwin support (no epoll - find workaround)
+- Cygwin support (kqueue?)
 - Performance optimization
 - Fix codestyle (clang format)
