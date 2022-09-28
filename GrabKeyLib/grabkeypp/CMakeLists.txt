@@ -54,7 +54,7 @@ write_basic_package_version_file(
 
 # Packaging
 
-set(COMPONENT_NAME "libpp")
+set(COMPONENT_NAME "cpplib")
 
 install(TARGETS grabkeypp
         DESTINATION ${LIBRARY_INSTALL_DIR}

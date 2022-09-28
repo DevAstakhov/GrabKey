@@ -15,6 +15,17 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_FILE_NAME "GrabKey")
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-set(CPACK_SOURCE_GENERATOR "TGZ")
-set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
 include(CPack)
+
+cpack_add_component("clib"
+    DISPLAY_NAME "C library"
+    DESCRIPTION "Low level library for file descriptor polling."
+    GROUP clib
+    )
+
+cpack_add_component("cpplib"
+    DISPLAY_NAME "C++ library"
+    DESCRIPTION "High level library for parsing and processing ANSI sequence from STDIN."
+    GROUP cpplib
+    DEPENDS "clib"
+    )
