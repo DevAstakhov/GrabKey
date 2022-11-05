@@ -132,6 +132,33 @@ and the includes at
 /your/prefix/usr/local/include/grabkey/
 ```
 
+### Packaging
+
+For building package uses cpack. The build command should run from your build directory (for example *GrabKeyLib/build*).
+
+```bash
+cpack -G <GENERATOR>
+```
+
+Specify generator from the list:
+```
+  7Z                           = 7-Zip file format
+  DEB                          = Debian packages
+  External                     = CPack External packages
+  IFW                          = Qt Installer Framework
+  NSIS                         = Null Soft Installer
+  NSIS64                       = Null Soft Installer (64-bit)
+  NuGet                        = NuGet packages
+  RPM                          = RPM packages
+  STGZ                         = Self extracting Tar GZip compression
+  TBZ2                         = Tar BZip2 compression
+  TGZ                          = Tar GZip compression
+  TXZ                          = Tar XZ compression
+  TZ                           = Tar Compress compression
+  TZST                         = Tar Zstandard compression
+  ZIP                          = ZIP file format
+```
+
 ## Importing into yor project
 
 The project has config files that are being installed at
