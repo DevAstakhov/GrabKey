@@ -30,14 +30,15 @@ std::vector<char>& FdReader::read_to(
     if (policy == Rewrite)
         out_buffer.clear();
 
-    out_buffer.resize(out_buffer.size() + read_bytes);
-    buf = out_buffer.data();
+    const auto sz = out_buffer.size();
+    out_buffer.resize(sz + read_bytes);
+    buf = out_buffer.data() + sz;
 
     ssize_t bytes = ::read(fd, buf, read_bytes);
 
     const bool has_data = !(bytes == -1 && errno == EAGAIN);
     if (has_data)
-        out_buffer.resize(bytes);
+        out_buffer.resize(sz + bytes);
 
     if (bytes < 0)
         throw std::runtime_error(strerror(errno));
