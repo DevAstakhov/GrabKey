@@ -7,4 +7,3 @@
 - License (MIT)
 - Cygwin support (kqueue?)
 - Performance optimization
-- Fix codestyle (clang format)
