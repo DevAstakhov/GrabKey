@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <exception>
 #include <iostream>
+#include <string_view>
 #include <unordered_map>
 #include "IKeyParser.hpp"
 #include "detailed_key.h"
@@ -58,7 +59,7 @@ void use_reader_basic() {
     do {
         // Trying to get a keyboard key
         keyboard::KeyboardReader::Status status{};
-        auto [key, sequense] = reader.get_key(timeout_sec * 1000, status);
+        auto [key, sequence] = reader.get_key(timeout_sec * 1000, status);
 
         switch (status) {
             // The specified time has elapsed
@@ -77,23 +78,25 @@ void use_reader_basic() {
             case keyboard::KeyboardReader::Status::Processed:
                 // Reacting on the key
                 switch (key) {
+                    case keyboard::Key::ESC:
+                        // Interruption status will be returned on next iteration
+                        reader.interrupt();
+                        break;
+                    default:
+                        if (sequence.size() != 1)
+                            break;
+                        // this is most likely a printable character
+                        // just print it
                     case keyboard::Key::UP:
                     case keyboard::Key::DOWN:
                     case keyboard::Key::RIGHT:
                     case keyboard::Key::LEFT:
                     case keyboard::Key::ENTER:
                         // printing just raw data that was read from stdin
-                        std::cout << sequense.data() << std::flush;
-                        break;
-                    case keyboard::Key::ESC:
-                        // Interruption status will be returned on next iteration
-                        reader.interrupt();
-                        break;
-                    default:
-                        if (sequense.size() == 1)
-                            // this is most likely a printable character
-                            // just print it
-                            std::cout << sequense.data()[0] << std::flush;
+                        std::cout << std::string_view(
+                                         sequence.data(), sequence.size()
+                                     )
+                                  << std::flush;
                         break;
                 }
 
@@ -119,7 +122,7 @@ void use_processor_basic() {
         processor.stop();
     };
     config.default_handler = [](auto key) {
-        std::cout << key.buffer.data();
+        std::cout << std::string_view(key.buffer.data(), key.buffer.size());
     };
     config.after_handler = [](auto) {
         std::cout << std::flush;
