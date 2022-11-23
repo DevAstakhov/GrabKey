@@ -2,17 +2,17 @@
 #define __FD_MONITOR_H__
 
 enum poll_result {
-    error = -1,
-    timeout = 0,
+    error       = -1,
+    timeout     = 0,
     interrupted = 1,
-    data_ready = 2
+    data_ready  = 2
 };
 
 struct monitor_ctx_t {};
 
 #ifdef __cplusplus
-extern "C"{
-#endif 
+extern "C" {
+#endif
 
 /**
  * @brief Create monitor for the specified descriptor.
@@ -58,4 +58,4 @@ int fd_monitor_get_fd(struct monitor_ctx_t* ctx);
 }
 #endif
 
-#endif // __FD_MONITOR_H__
+#endif  // __FD_MONITOR_H__

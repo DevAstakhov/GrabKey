@@ -5,11 +5,14 @@
 
 namespace keyboard {
 
-template <class TParser, class ResultHashFn = std::hash<typename TParser::Result>, class ResultEqualFn = std::equal_to<typename TParser::Result>>
+template <
+    class TParser, class ResultHashFn = std::hash<typename TParser::Result>,
+    class ResultEqualFn = std::equal_to<typename TParser::Result>>
 class EventsProcessorBase {
 public:
     using KeyboardReader = KeyboardReaderBase<TParser>;
-    using EventsConfig = EventsConfigBase<typename TParser::Result, ResultHashFn, ResultEqualFn>;
+    using EventsConfig =
+        EventsConfigBase<typename TParser::Result, ResultHashFn, ResultEqualFn>;
 
 private:
     KeyboardReader kbd_reader;
@@ -17,13 +20,13 @@ private:
 
 public:
     EventsProcessorBase(
-        KeyboardReader kbd_reader = KeyboardReader(),
-        EventsConfig config = {})
-        : kbd_reader(kbd_reader)
-        , config(config)
-    {}
+        KeyboardReader kbd_reader = KeyboardReader(), EventsConfig config = {}
+    )
+        : kbd_reader(kbd_reader), config(config) {}
 
-    typename EventsConfig::Handler get_handler(const typename KeyboardReader::Parser::Result& result) {
+    typename EventsConfig::Handler get_handler(
+        const typename KeyboardReader::Parser::Result& result
+    ) {
         auto handler_it = config.handlers.find(result);
         if (handler_it != config.handlers.end())
             return handler_it->second;
@@ -34,7 +37,10 @@ public:
         return {};
     }
 
-    void invoke(typename EventsConfig::Handler& handler, typename KeyboardReader::Parser::Result result) {
+    void invoke(
+        typename EventsConfig::Handler& handler,
+        typename KeyboardReader::Parser::Result result
+    ) {
         if (config.before_handler)
             config.before_handler(result);
 
@@ -69,23 +75,17 @@ public:
         } while (working);
     }
 
-    void stop() {
-        kbd_reader.interrupt();
-    }
+    void stop() { kbd_reader.interrupt(); }
 
-    EventsConfig get_config() const {
-        return config;
-    }
+    EventsConfig get_config() const { return config; }
 
     void apply_config(const EventsConfig& config) {
         this->apply_config(EventsConfig(config));
     }
 
-    void apply_config(EventsConfig&& config) {
-        this->config = config;
-    }
+    void apply_config(EventsConfig&& config) { this->config = config; }
 };
 
 using EventsProcessor = EventsProcessorBase<KeyboardKeyParser>;
 
-}
+}  // namespace keyboard

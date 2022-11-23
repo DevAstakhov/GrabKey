@@ -1,8 +1,8 @@
 #pragma once
 
-#include "fd_poller.h"
 #include <memory>
 #include <vector>
+#include "fd_poller.h"
 
 namespace keyboard {
 
@@ -19,7 +19,9 @@ public:
         Rewrite
     };
 
-    std::vector<char>& read_to(std::vector<char>& out_buffer, size_t read_bytes, BufferPolicy policy) const;
+    std::vector<char>& read_to(
+        std::vector<char>& out_buffer, size_t read_bytes, BufferPolicy policy
+    ) const;
     std::vector<char> read(size_t read_bytes);
 
     PollResult poll(int timeout_ms) const;
@@ -27,4 +29,4 @@ public:
     void clear() const;
 };
 
-}
+}  // namespace keyboard

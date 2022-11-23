@@ -1,9 +1,9 @@
-#include "fd_monitor.h"
+#include <stdlib.h>
+#include <string.h>
 #include <sys/event.h>
 #include <sys/pipe.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+#include "fd_monitor.h"
 
 struct kqueue_monitor_ctx_t {
     int fd;
@@ -11,8 +11,7 @@ struct kqueue_monitor_ctx_t {
     int interrupt_pipe[2];
 };
 
-int SubscribeOnEvents(int kq, int fd)
-{
+int SubscribeOnEvents(int kq, int fd) {
     // Event we want to monitor
     struct kevent event;
 
@@ -29,8 +28,7 @@ int SubscribeOnEvents(int kq, int fd)
     return 0;
 }
 
-struct monitor_ctx_t* fd_monitor_create(int fd)
-{
+struct monitor_ctx_t* fd_monitor_create(int fd) {
     int kq = kqueue();
 
     if (kq < 0)
@@ -44,16 +42,16 @@ struct monitor_ctx_t* fd_monitor_create(int fd)
     SubscribeOnEvents(kq, fd);
     SubscribeOnEvents(kq, interrupt_pipe[0]);
 
-    struct kqueue_monitor_ctx_t* kq_ctx = calloc(1, sizeof(struct kqueue_monitor_ctx_t*));
-    kq_ctx->fd = fd;
+    struct kqueue_monitor_ctx_t* kq_ctx =
+        calloc(1, sizeof(struct kqueue_monitor_ctx_t*));
+    kq_ctx->fd        = fd;
     kq_ctx->kqueue_fd = kq;
     memcpy(kq_ctx->interrupt_pipe, interrupt_pipe, sizeof(interrupt_pipe));
 
     return (struct monitor_ctx_t*)kq_ctx;
 }
 
-void fd_monitor_free(struct monitor_ctx_t* ctx)
-{
+void fd_monitor_free(struct monitor_ctx_t* ctx) {
     struct kqueue_monitor_ctx_t* kq_ctx = (struct kqueue_monitor_ctx_t*)ctx;
 
     close(kq_ctx->kqueue_fd);
@@ -63,8 +61,7 @@ void fd_monitor_free(struct monitor_ctx_t* ctx)
     free(kq_ctx);
 }
 
-int fd_monitor_interrupt(struct monitor_ctx_t* ctx)
-{
+int fd_monitor_interrupt(struct monitor_ctx_t* ctx) {
     struct kqueue_monitor_ctx_t* kq_ctx = (struct kqueue_monitor_ctx_t*)ctx;
 
     const char s;
@@ -74,28 +71,29 @@ int fd_monitor_interrupt(struct monitor_ctx_t* ctx)
     return 0;
 }
 
-static struct timespec* ms_to_timespec(struct timespec* ts, int ms)
-{
+static struct timespec* ms_to_timespec(struct timespec* ts, int ms) {
     if (ms < 0)
         return NULL;
-        
-    ts->tv_sec = ms / 1000;
+
+    ts->tv_sec  = ms / 1000;
     ts->tv_nsec = (ms % 1000) * 1000000;
 
     return ts;
 }
 
-enum poll_result fd_monitor_poll(struct monitor_ctx_t* ctx, int timeout_ms)
-{
+enum poll_result fd_monitor_poll(struct monitor_ctx_t* ctx, int timeout_ms) {
     struct kqueue_monitor_ctx_t* kq_ctx = (struct kqueue_monitor_ctx_t*)ctx;
 
     struct timespec timeout_ts;
-    struct kevent event; 
+    struct kevent event;
 
-    int events_count = kevent(kq_ctx->kqueue_fd, NULL, 0, &event, 1, ms_to_timespec(&timeout_ts, timeout_ms));
+    int events_count = kevent(
+        kq_ctx->kqueue_fd, NULL, 0, &event, 1,
+        ms_to_timespec(&timeout_ts, timeout_ms)
+    );
     if (events_count < 0)
         return error;
-    
+
     if (events_count == 0)
         return timeout;
 
@@ -108,8 +106,7 @@ enum poll_result fd_monitor_poll(struct monitor_ctx_t* ctx, int timeout_ms)
     return data_ready;
 }
 
-int fd_monitor_get_fd(struct monitor_ctx_t *ctx)
-{
+int fd_monitor_get_fd(struct monitor_ctx_t* ctx) {
     struct kqueue_monitor_ctx_t* kq_ctx = (struct kqueue_monitor_ctx_t*)ctx;
-    return kq_ctx->fd;   
+    return kq_ctx->fd;
 }

@@ -1,17 +1,16 @@
 #pragma once
 
-#include "fd_reader.h"
-#include "kbd_key_parser.h"
-#include "raw_mode.h"
+#include <unistd.h>
 #include <deque>
 #include <stdexcept>
 #include <type_traits>
-#include <unistd.h>
-
+#include "fd_reader.h"
+#include "kbd_key_parser.h"
+#include "raw_mode.h"
 
 namespace keyboard {
 
-template<class TParser>
+template <class TParser>
 class KeyboardReaderBase {
 public:
     using Parser = TParser;
@@ -25,28 +24,23 @@ private:
 
 public:
     KeyboardReaderBase(Parser parser = Parser(), size_t read_size = 128)
-        : reader(STDIN_FILENO)
-        , parser(parser)
-        , read_size(read_size)
-    {}
+        : reader(STDIN_FILENO), parser(parser), read_size(read_size) {}
 
-    enum class Status {
-        Processed = 0,
-        TimedOut = 1,
-        Interrupted = 2
-    };
+    enum class Status { Processed = 0, TimedOut = 1, Interrupted = 2 };
 
     typename Parser::Result get_key(int timeout_ms = -1) {
         Status s;
         return get_key(timeout_ms, s);
     }
 
-    typename Parser::Result get_key(int timeout_ms, Status& out_status) {        
+    typename Parser::Result get_key(int timeout_ms, Status& out_status) {
         auto process_front_buffer = [this, &out_status]() {
             std::vector<char> buffer = std::move(buffers.front());
             buffers.pop_front();
+
             const auto key = parser.process_buffer(std::move(buffer));
-            out_status = Status::Processed;
+            out_status     = Status::Processed;
+
             return key;
         };
 
@@ -73,4 +67,4 @@ public:
 
 using KeyboardReader = KeyboardReaderBase<KeyboardKeyParser>;
 
-}
+}  // namespace keyboard

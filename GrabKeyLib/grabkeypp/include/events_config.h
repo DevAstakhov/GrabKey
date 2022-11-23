@@ -1,12 +1,11 @@
 #pragma once
 
-#include <unordered_map>
 #include <functional>
-
+#include <unordered_map>
 
 namespace keyboard {
 
-template<class TKey, class HashFn, class EqualFn>
+template <class TKey, class HashFn, class EqualFn>
 struct EventsConfigBase {
     using Handler = std::function<void(const TKey&)>;
 
@@ -16,4 +15,4 @@ struct EventsConfigBase {
     Handler default_handler;
 };
 
-}
+}  // namespace keyboard

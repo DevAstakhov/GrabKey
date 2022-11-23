@@ -3,7 +3,7 @@
 
 namespace keyboard {
 
-DetailedKey::DetailedKey(Key key, std::vector<char> buffer) :
-    key(key), buffer(buffer) {}
+DetailedKey::DetailedKey(Key key, std::vector<char> buffer)
+    : key(key), buffer(buffer) {}
 
-}
+}  // namespace keyboard

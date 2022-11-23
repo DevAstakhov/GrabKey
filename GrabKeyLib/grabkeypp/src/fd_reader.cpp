@@ -1,18 +1,15 @@
 #include "fd_reader.h"
-#include "fd_monitor.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <unistd.h>
 #include <cstring>
 #include <stdexcept>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <termios.h>
+#include "fd_monitor.h"
 
 namespace keyboard {
 
-FdReader::FdReader(int fd)
-    : fd(fd)
-    , poller(fd)
-{
+FdReader::FdReader(int fd) : fd(fd), poller(fd) {
     int flags = ::fcntl(fd, F_GETFL, 0);
     if (flags < 0)
         throw std::runtime_error(strerror(errno));
@@ -25,12 +22,14 @@ void FdReader::dispose() {
     this->poller.dispose();
 }
 
-std::vector<char>& FdReader::read_to(std::vector<char>& out_buffer, size_t read_bytes, BufferPolicy policy) const {
+std::vector<char>& FdReader::read_to(
+    std::vector<char>& out_buffer, size_t read_bytes, BufferPolicy policy
+) const {
     char* buf = NULL;
 
     if (policy == Rewrite)
         out_buffer.clear();
-    
+
     out_buffer.resize(out_buffer.size() + read_bytes);
     buf = out_buffer.data();
 
@@ -54,12 +53,16 @@ std::vector<char> FdReader::read(size_t read_bytes) {
     return out_buffer;
 }
 
-PollResult FdReader::poll(int timeout_ms) const { return poller.poll(timeout_ms); }
-void FdReader::interrupt() const { poller.interrupt(); }
+PollResult FdReader::poll(int timeout_ms) const {
+    return poller.poll(timeout_ms);
+}
+void FdReader::interrupt() const {
+    poller.interrupt();
+}
 
 void FdReader::clear() const {
     if (::tcflush(fd, TCIOFLUSH) < 0)
         throw std::runtime_error(strerror(errno));
 }
 
-}
+}  // namespace keyboard

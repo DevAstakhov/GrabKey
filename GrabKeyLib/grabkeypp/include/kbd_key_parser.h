@@ -1,9 +1,8 @@
 #pragma once
 
-#include "detailed_key.h"
-#include "IKeyParser.hpp"
 #include <cstddef>
-
+#include "IKeyParser.hpp"
+#include "detailed_key.h"
 
 namespace keyboard {
 
@@ -16,4 +15,4 @@ public:
 
 Key ParseSequence(const char* data, size_t size);
 
-}
+}  // namespace keyboard

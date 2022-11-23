@@ -7,8 +7,8 @@ struct monitor_ctx_t;
 namespace keyboard {
 
 enum class PollResult {
-    Timeout = -1,
-    DataReady = 0,
+    Timeout     = -1,
+    DataReady   = 0,
     Interrupted = 1
 };
 
@@ -23,4 +23,4 @@ public:
     void dispose();
 };
 
-}
+}  // namespace keyboard
