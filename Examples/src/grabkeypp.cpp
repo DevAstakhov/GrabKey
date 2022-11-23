@@ -90,10 +90,10 @@ void use_reader_basic() {
                         reader.interrupt();
                         break;
                     default:
-                        if (sequense.size() ==
-                            1)  // this is most likely a printable character
+                        if (sequense.size() == 1)
+                            // this is most likely a printable character
                             // just print it
-                            std::cout << sequense.data() << std::flush;
+                            std::cout << sequense.data()[0] << std::flush;
                         break;
                 }
 
