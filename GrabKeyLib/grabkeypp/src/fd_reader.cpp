@@ -9,8 +9,8 @@
 
 namespace keyboard {
 
-FdReader::FdReader(int fd) : fd(fd), poller(fd) {
-    int flags = ::fcntl(fd, F_GETFL, 0);
+FdReader::FdReader(int fd) : fd(fd), flags(0), poller(fd) {
+    flags = ::fcntl(fd, F_GETFL, 0);
     if (flags < 0)
         throw std::runtime_error(strerror(errno));
 
@@ -19,6 +19,7 @@ FdReader::FdReader(int fd) : fd(fd), poller(fd) {
 }
 
 void FdReader::dispose() {
+    ::fcntl(fd, F_SETFL, flags);
     this->poller.dispose();
 }
 

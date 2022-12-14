@@ -8,6 +8,7 @@ namespace keyboard {
 
 class FdReader {
     int fd;
+    int flags;
     FdPoller poller;
 
 public:
