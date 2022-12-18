@@ -66,7 +66,7 @@ int main() {
 } // main
 ```
 
-## Customisation
+## Customization
 
 There are KeyboardReaderBase and EventsProcessorBase templates exists in the code - so they are highly customisable for your needs. Check the examples at Examples folder.
 
