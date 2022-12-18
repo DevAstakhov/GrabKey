@@ -68,7 +68,7 @@ int main() {
 
 ## Customization
 
-There are KeyboardReaderBase and EventsProcessorBase templates exists in the code - so they are highly customisable for your needs. Check the examples at Examples folder.
+There are KeyboardReaderBase and EventsProcessorBase templates in the code - so they are highly customisable for your needs. Check the examples at Examples folder.
 
 In case you need to to use it with C application - there are C components at GrabKeyLib/grabkey. 
 The C++ parts are located at GrabKeyLib/grabkeypp.
