@@ -1,6 +1,8 @@
 #pragma once
 
+#include <chrono>
 #include <memory>
+#include <optional>
 
 struct monitor_ctx_t;
 
@@ -18,7 +20,10 @@ class FdPoller {
 public:
     FdPoller(int fd);
 
-    PollResult poll(int timeout_ms) const;
+    PollResult poll(
+        std::optional<std::chrono::milliseconds> timeout = std::nullopt
+    ) const;
+
     void interrupt() const;
     void dispose();
 };

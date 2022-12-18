@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+#include <optional>
 #include "events_config.h"
 #include "kbd_reader.h"
 
@@ -50,14 +52,15 @@ public:
             config.after_handler(result);
     }
 
-    void start() {
+    void start(
+        std::optional<std::chrono::milliseconds> timeout = std::nullopt
+    ) {
         bool working = true;
 
         do {
             typename KeyboardReader::Status status;
-            int timeout_ms = -1;
 
-            auto result = kbd_reader.get_key(timeout_ms, status);
+            auto result = kbd_reader.get_key(timeout, status);
 
             switch (status) {
                 case KeyboardReader::Status::TimedOut:

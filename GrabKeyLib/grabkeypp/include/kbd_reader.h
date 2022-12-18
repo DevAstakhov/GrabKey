@@ -1,7 +1,9 @@
 #pragma once
 
 #include <unistd.h>
+#include <chrono>
 #include <deque>
+#include <optional>
 #include <stdexcept>
 #include <type_traits>
 #include "fd_reader.h"
@@ -26,14 +28,22 @@ public:
     KeyboardReaderBase(Parser parser = Parser(), size_t read_size = 128)
         : reader(STDIN_FILENO), parser(parser), read_size(read_size) {}
 
-    enum class Status { Processed = 0, TimedOut = 1, Interrupted = 2 };
+    enum class Status {
+        Processed   = 0,
+        TimedOut    = 1,
+        Interrupted = 2
+    };
 
-    typename Parser::Result get_key(int timeout_ms = -1) {
+    typename Parser::Result get_key(
+        std::optional<std::chrono::milliseconds> timeout = std::nullopt
+    ) {
         Status s;
-        return get_key(timeout_ms, s);
+        return get_key(std::move(timeout), s);
     }
 
-    typename Parser::Result get_key(int timeout_ms, Status& out_status) {
+    typename Parser::Result get_key(
+        std::optional<std::chrono::milliseconds> timeout, Status& out_status
+    ) {
         auto process_front_buffer = [this, &out_status]() {
             std::vector<char> buffer = std::move(buffers.front());
             buffers.pop_front();
@@ -47,7 +57,7 @@ public:
         if (!buffers.empty())
             return process_front_buffer();
 
-        switch (reader.poll(timeout_ms)) {
+        switch (reader.poll(std::move(timeout))) {
             case PollResult::DataReady:
                 buffers.push_back(reader.read(read_size));
                 return process_front_buffer();

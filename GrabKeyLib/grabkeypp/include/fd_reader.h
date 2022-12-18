@@ -1,6 +1,8 @@
 #pragma once
 
+#include <chrono>
 #include <memory>
+#include <optional>
 #include <vector>
 #include "fd_poller.h"
 
@@ -25,7 +27,10 @@ public:
     ) const;
     std::vector<char> read(size_t read_bytes);
 
-    PollResult poll(int timeout_ms) const;
+    PollResult poll(
+        std::optional<std::chrono::milliseconds> timeout = std::nullopt
+    ) const;
+
     void interrupt() const;
     void clear() const;
 };

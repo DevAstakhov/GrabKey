@@ -55,9 +55,11 @@ std::vector<char> FdReader::read(size_t read_bytes) {
     return out_buffer;
 }
 
-PollResult FdReader::poll(int timeout_ms) const {
-    return poller.poll(timeout_ms);
+PollResult FdReader::poll(std::optional<std::chrono::milliseconds> timeout
+) const {
+    return poller.poll(std::move(timeout));
 }
+
 void FdReader::interrupt() const {
     poller.interrupt();
 }

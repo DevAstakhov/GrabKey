@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cstddef>
 #include <exception>
 #include <iostream>
@@ -54,12 +55,12 @@ void use_reader_basic() {
 
     // Some variables with initial states
     bool keep_going = true;
-    int timeout_sec = 5;
+    auto timeout    = std::chrono::seconds(5);
 
     do {
         // Trying to get a keyboard key
         keyboard::KeyboardReader::Status status{};
-        auto [key, sequence] = reader.get_key(timeout_sec * 1000, status);
+        auto [key, sequence] = reader.get_key(timeout, status);
 
         switch (status) {
             // The specified time has elapsed
@@ -202,7 +203,7 @@ void use_reader_advanced() {
     bool working = true;
     while (working) {
         // Waiting for a key to be read
-        const MyResult result = reader.get_key(-1);
+        const MyResult result = reader.get_key({});
 
         // Clearing line
         std::cout << "\r"

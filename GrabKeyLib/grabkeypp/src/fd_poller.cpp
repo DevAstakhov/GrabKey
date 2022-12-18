@@ -27,13 +27,16 @@ static inline PollResult Process(poll_result result) {
     throw std::runtime_error("Unreachable");
 }
 
-PollResult FdPoller::poll(int timeout_ms) const {
+PollResult FdPoller::poll(std::optional<std::chrono::milliseconds> timeout
+) const {
+    int timeout_ms = timeout.has_value() ? timeout->count() : -1;
     return Process(fd_monitor_poll(the_ctx.get(), timeout_ms));
 }
 
 void FdPoller::interrupt() const {
     fd_monitor_interrupt(the_ctx.get());
 }
+
 void FdPoller::dispose() {
     the_ctx.reset();
 }
